@@ -1,5 +1,8 @@
 package facelay.controller;
 
+import java.util.ArrayList;
+import java.util.TreeMap;
+
 /**
  * 350. 两个数组的交集 II
  * 
@@ -25,7 +28,40 @@ public class leetcode_350 {
 	 * @return
 	 */
 	public int[] intersect(int[] nums1, int[] nums2) {
+		TreeMap<Integer, Integer> map = new TreeMap<>();
+		for (int num : nums1) {
+			if (map.containsKey(num)) {
+				// map.put(num, map.get(num) + 1); // 此处使用replace语义方面比较合适
+				map.replace(num, map.get(num) + 1);
+			} else {
+				map.put(num, 1);
+			}
+		}
 
-		return null;
+		ArrayList<Integer> list = new ArrayList<>();
+		for (int n : nums2) {
+			if (map.containsKey(n)) {
+				list.add(n);
+				map.put(n, map.get(n) - 1);
+				if (map.get(n) == 0) {
+					map.remove(n);
+				}
+			}
+		}
+		int[] res = new int[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			res[i] = list.get(i);
+		}
+
+		return res;
+	}
+
+	public static void main(String[] args) {
+		int[] nums1 = new int[] { 1, 2, 2, 1, 4 };
+		int[] nums2 = new int[] { 2, 2, 3, 4 };
+		int[] is = new leetcode_350().intersect(nums1, nums2);
+		for (int i : is) {
+			System.out.println(i);
+		}
 	}
 }
