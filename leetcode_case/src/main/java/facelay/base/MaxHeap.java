@@ -111,6 +111,13 @@ public class MaxHeap<E extends Comparable<E>> {
 		return ret;
 	}
 
+	public E replace(int index, E e) {
+		if (data.get(index) == null) {
+			throw new IllegalArgumentException("the MaxHeap have no index.");
+		}
+		return data.set(index, e);
+	}
+
 	// 下沉元素，找到合适的位置存放
 	private void siftDown(int k) {
 		while (leftChild(k) < data.size()) {
@@ -136,14 +143,18 @@ public class MaxHeap<E extends Comparable<E>> {
 			maxHeap.add(random.nextInt(100));
 		}
 		System.out.println(maxHeap.data);
-
-		int[] arr = new int[n]; 
-		for (int i = 0; i < n; i++) {
-			arr[i] = maxHeap.extractMax();
-		}
-		for (int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
-		}
+//
+//		int[] arr = new int[n];
+//		for (int i = 0; i < n; i++) {
+//			arr[i] = maxHeap.extractMax();
+//		}
+//		for (int i = 0; i < arr.length; i++) {
+//			System.out.println(arr[i]);
+//		}
+		
+		Integer integer = maxHeap.replace(10, 666);
+		System.out.println(integer);
+		System.out.println(maxHeap.data);
 	}
 
 }
