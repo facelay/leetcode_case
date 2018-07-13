@@ -3,6 +3,8 @@ package facelay;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import facelay.base.ListNode;
+
 public class Solution {
 
 	public ListNode removeElements(ListNode head, int val) {
