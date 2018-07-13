@@ -1,4 +1,4 @@
-package facelay;
+package com.facelay.leetcode.testController;
 
 public class MainTest {
 
