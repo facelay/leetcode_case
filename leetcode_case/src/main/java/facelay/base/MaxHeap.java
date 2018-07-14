@@ -152,7 +152,7 @@ public class MaxHeap<E extends Comparable<E>> {
 //			System.out.println(arr[i]);
 //		}
 
-        Integer integer = maxHeap.replace(9, 666);
+        Integer integer = maxHeap.replace(8, 666);
         System.out.println(integer);
         System.out.println(maxHeap.data);
     }
