@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class leetcode_347_2 {
 
+    /*
     private class Freq {
         int e, freq;
 
@@ -19,14 +20,13 @@ public class leetcode_347_2 {
         }
     }
 
-    //自定义比较器
     private class FreqComparator implements Comparator<Freq> {
         @Override
         public int compare(Freq a, Freq b) {
             return a.freq - b.freq;
         }
     }
-
+    */
 
     public List<Integer> topKFrequent(int[] nums, int k) {
         TreeMap<Integer, Integer> map = new TreeMap<>();
@@ -37,20 +37,31 @@ public class leetcode_347_2 {
                 map.put(key, 1);
             }
         }
-        PriorityQueue<Freq> pq = new PriorityQueue<>(new FreqComparator());
+
+        //匿名类
+//        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer a, Integer b) {
+//                return map.get(a) - map.get(b);
+//            }
+//        });
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(
+                (a, b) -> map.get(a) - map.get(b)
+        );
         for (int key : map.keySet()) {
             if (pq.size() < k) {
-                pq.add(new Freq(key, map.get(key)));
-            } else if (map.get(key) > pq.peek().freq) {
+                pq.add(key);
+            } else if (map.get(key) > map.get(pq.peek())) {
                 pq.remove();
-                pq.add(new Freq(key, map.get(key)));
+                pq.add(key);
             }
         }
 
 
         LinkedList<Integer> list = new LinkedList<>();
-        for (int num : list) {
-            list.add(num);
+        while (!pq.isEmpty()) {
+            list.add(pq.remove());
         }
         return list;
     }
