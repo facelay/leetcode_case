@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import facelay.base.Trie;
 import facelay.common.FileOperation;
+import facelay.inter.BST;
 
 public class TrieTest {
 
@@ -12,6 +13,7 @@ public class TrieTest {
 		ArrayList<String> words = new ArrayList<>();
 		if (FileOperation.readFile("pride-and-prejudice.txt", words)) {
 			System.out.println("total words size:" + words.size());
+
 			long startTime = System.nanoTime();
 			Trie trie = new Trie();
 			for (String word : words) {
@@ -21,14 +23,18 @@ public class TrieTest {
 			long endTime = System.nanoTime();
 
 			double time = (endTime - startTime) / 1000000000.0;
+			System.out.println("Trie elapsed time:" + time);
 
-			System.out.println("elapsed time:" + time);
+			//////////////////////////////////////
 
-			boolean b = trie.query("pridesssss");
-			System.out.println("search pride is:" + b);
-
-			boolean b2 = trie.prefix("prid");
-			System.out.println("prefix prid is:" + b2);
+			startTime = System.nanoTime();
+			BST<String> bst = new BST<>();
+			for (String word : words) {
+				bst.add(word);
+			}
+			endTime = System.nanoTime();
+			time = (endTime - startTime) / 1000000000.0;
+			System.out.println("BST elapsed time:" + time);
 		}
 	}
 }
