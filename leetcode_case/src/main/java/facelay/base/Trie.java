@@ -1,5 +1,6 @@
 package facelay.base;
 
+import java.util.Stack;
 import java.util.TreeMap;
 
 /**
@@ -45,7 +46,6 @@ public class Trie {
 				cur.next.put(c, new Node());
 			}
 			cur = cur.next.get(c);
-
 		}
 		if (!cur.isWord) {
 			cur.isWord = true;
@@ -81,14 +81,52 @@ public class Trie {
 		return true;
 	}
 
+	// 删除Trie中的单词word
+	public void delete(String word) {
+		Stack<Node> stack = new Stack<Node>();
+		Node cur = root;
+		// 首先判断word是否存在
+		for (int i = 0; i < word.length(); i++) {
+			char c = word.charAt(i);
+			if (cur.next.get(c) == null) {
+				return;
+			}
+			cur = cur.next.get(c);
+			if (i != word.length() - 1) {
+				stack.push(cur); // 最后一个节点不用压入栈中
+			}
+		}
+		// 此处判断cur节点的isWord是否为true
+		if (cur.isWord) {
+			// 代表word这个单词是存在的，现在判断cur下是否还有其他的节点，如果存在，则表示还有其他的单词,此时将isWord设置为false即可
+			if (!cur.next.isEmpty()) {
+				cur.isWord = false;
+				stack.clear(); // 清空资源
+			} else {
+				// 自下而上删除每一个字符节点，如果遇到存在其它分支的节点或者isWord=true时，终止删除
+				while (!stack.isEmpty()) {
+					Node node = stack.pop();
+					if (node.next.size() <= 1 && !node.isWord) {
+						// 此时删除这个节点的子节点
+						node.next = new TreeMap<>();
+					} else {
+						stack.clear();
+						break;
+					}
+				}
+			}
+			size--;
+		}
+	}
+
 	public static void main(String[] args) {
 		Trie trie = new Trie();
 		trie.add("apple");
-		System.out.println(trie.query("apple"));
-		System.out.println(trie.query("app"));
-		System.out.println(trie.prefix("app"));
 		trie.add("app");
+		trie.delete("apple");
 		System.out.println(trie.query("app"));
+		System.out.println(trie.query("apple"));
+		System.out.println(trie.getSize());
 	}
 
 }
