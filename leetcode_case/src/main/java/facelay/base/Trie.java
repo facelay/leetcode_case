@@ -81,6 +81,7 @@ public class Trie {
 		return true;
 	}
 
+	// 方式一：
 	// 删除Trie中的单词word
 	public void delete(String word) {
 		Stack<Node> stack = new Stack<Node>();
@@ -119,14 +120,57 @@ public class Trie {
 		}
 	}
 
+	static class StopMsgException extends RuntimeException {
+	}
+
+	// 方式二：
+	public void remove(String word) {
+		try {
+			remove(root, word, 0);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	// 使用递归操作删除Trie中的单词word
+	private void remove(Node node, String word, int offset) throws Exception {
+		if (offset == word.length()) {
+			if (node.isWord) { // 此时表示这个单词存在的，可以删除
+				size--;
+				if (!node.next.isEmpty()) { // 如果这个字母后面还有分支，那么设置该节点的isWord=false即可
+					node.isWord = false;
+					throw new StopMsgException(); // 强制终止递归
+				}
+				return;
+			}
+		}
+
+		remove(node.next.get(word.charAt(offset)), word, offset + 1);
+		// 此处判断该节点isWord是否为true，并且是否存在其他分支的子节点
+		if (!node.isWord && node.next.size() <= 1) {
+			node.next = new TreeMap<>();
+		} else {
+			throw new StopMsgException();
+		}
+
+	}
+
 	public static void main(String[] args) {
 		Trie trie = new Trie();
 		trie.add("apple");
+		trie.add("apples");
 		trie.add("app");
-		trie.delete("apple");
-		System.out.println(trie.query("app"));
+		trie.add("atc");
+		trie.add("atce");
+		trie.remove("apple");
 		System.out.println(trie.query("apple"));
+		System.out.println(trie.query("apples"));
+		System.out.println(trie.query("app"));
+		System.out.println(trie.query("atce"));
+		System.out.println(trie.query("atc"));
 		System.out.println(trie.getSize());
+
 	}
 
 }
