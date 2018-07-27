@@ -1,7 +1,5 @@
 package facelay.controller;
 
-import org.omg.CORBA.NO_IMPLEMENT;
-
 import facelay.base.ListNode;
 
 /**
@@ -29,13 +27,15 @@ public class leetcode_237 {
 	 * @param node
 	 */
 	public void deleteNode(ListNode node) {
-		
+		node.val = node.next.val;
+		node.next = node.next.next;
 	}
 
+	/**
+	 * 此例好像没有办法可以做测试用例，但是两行代码就可以解决这个问题
+	 */
 	public static void main(String[] args) {
-		int[] arr = { 4, 5, 1, 9 };
-		ListNode node = new ListNode(arr);
-		System.out.println(node);
-		node = new ListNode(5);
+
 	}
+
 }
