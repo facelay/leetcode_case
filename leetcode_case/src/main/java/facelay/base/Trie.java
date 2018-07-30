@@ -54,7 +54,7 @@ public class Trie {
 		if (node.next.get(c) == null) {
 			node.next.put(c, new Node());
 		}
-		addRecursion(node.next.get(c), word, index++);
+		addRecursion(node.next.get(c), word, ++index);
 
 	}
 
@@ -179,11 +179,11 @@ public class Trie {
 
 	public static void main(String[] args) {
 		Trie trie = new Trie();
-		trie.add("apple");
-		trie.add("apples");
-		trie.add("app");
-		trie.add("atc");
-		trie.add("atce");
+		trie.addRecursion("apple");
+		trie.addRecursion("apples");
+		trie.addRecursion("app");
+		trie.addRecursion("atc");
+		trie.addRecursion("atce");
 		trie.remove("apple");
 		System.out.println(trie.query("apple"));
 		System.out.println(trie.query("apples"));
