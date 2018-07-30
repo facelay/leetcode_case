@@ -37,6 +37,27 @@ public class Trie {
 		return size;
 	}
 
+	// 使用递归的方式向Trie中添加一个新的单词word
+	public void addRecursion(String word) {
+		addRecursion(root, word, 0);
+	}
+
+	private void addRecursion(Node node, String word, int index) {
+		if (index == word.length()) {
+			if (!node.isWord) {
+				node.isWord = true;
+				size++;
+			}
+			return;
+		}
+		char c = word.charAt(index);
+		if (node.next.get(c) == null) {
+			node.next.put(c, new Node());
+		}
+		addRecursion(node.next.get(c), word, index++);
+
+	}
+
 	// 向Trie中添加一个新的单词word
 	public void add(String word) {
 		Node cur = root;
